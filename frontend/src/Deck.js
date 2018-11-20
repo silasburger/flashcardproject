@@ -1,32 +1,28 @@
 import React, { Component } from 'react';
-import Card from './Card';
+import CardList from './CardList';
+import rememberlyApi from './rememberlyApi';
 
 class Deck extends Component {
-  static defaultProps = {
-    cardsToAsk: [
-      { question: "What's your favorite food?", answer: 'pasta' },
-      { question: "What's your favorite drink?", answer: 'water' }
-    ]
-  };
-
   constructor(props) {
     super(props);
-    this.state = { currentCardIndex: 0 };
-    this.getNextCard = this.getNextCard.bind(this);
+    this.state = { cards: {} };
   }
 
-  // Change state to get the next card
-  getNextCard() {
-    this.setState(st => ({ currentCardIndex: st.currentCardIndex + 1 }));
+  // static defaultProps = {
+  //   cards: [
+  //     { question: "What's your favorite food?", answer: 'pasta' },
+  //     { question: "What's your favorite drink?", answer: 'water' }
+  //   ]
+  // };
+
+  async componentDidMount() {
+    const cards = await rememberlyApi.getCards();
+    this.setState({ cards });
+    console.log(cards);
   }
 
   render() {
-    let currentCard = this.props.cardsToAsk[this.state.currentCardIndex];
-    return (
-      <div className="">
-        <Card {...currentCard} getNextCard={this.getNextCard} />
-      </div>
-    );
+    return <CardList cards={this.state.cards} />;
   }
 }
 
