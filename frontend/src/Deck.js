@@ -5,7 +5,7 @@ import rememberlyApi from './rememberlyApi';
 class Deck extends Component {
   constructor(props) {
     super(props);
-    this.state = { cards: {} };
+    this.state = { cards: [] };
   }
 
   // static defaultProps = {
@@ -16,9 +16,8 @@ class Deck extends Component {
   // };
 
   async componentDidMount() {
-    const cards = await rememberlyApi.getCards();
+    const {cards} = await rememberlyApi.getCards();
     this.setState({ cards });
-    console.log(cards);
   }
 
   render() {
